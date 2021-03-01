@@ -8,8 +8,7 @@ from gooey.tests import *
 class TestGooeyHeader(unittest.TestCase):
 
     def make_parser(self):
-        parser = ArgumentParser(description='description')
-        return parser
+        return ArgumentParser(description='description')
 
     def test_header_visibility(self):
         """

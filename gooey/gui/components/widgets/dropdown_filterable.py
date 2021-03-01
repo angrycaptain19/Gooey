@@ -126,7 +126,7 @@ class FilterableDropdown(Dropdown):
 
     def setOptions(self, options):
         self.model.updateChoices(options)
-        if not self.model.actualValue in options:
+        if self.model.actualValue not in options:
             self.model.updateActualValue('')
 
     def setValue(self, value):
@@ -149,9 +149,7 @@ class FilterableDropdown(Dropdown):
         """
         if wxEvent.EventObject not in (self.widget, self.widget.GetTextCtrl()):
             self.model.hideSuggestions()
-            wxEvent.Skip()
-        else:
-            wxEvent.Skip()
+        wxEvent.Skip()
 
     def onTextInput(self, event):
         """Processes the user's input and show relevant suggestions"""
@@ -292,7 +290,7 @@ class FilterableDropdownModel(object):
 
     def generateSuggestions(self, prompt):
         suggestions = self.strat.findMatches(prompt)
-        final_suggestions = suggestions if suggestions else [self.noMatch]
+        final_suggestions = suggestions or [self.noMatch]
         self.suggestions = final_suggestions
 
     def incSelectedSuggestion(self):

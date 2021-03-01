@@ -2,6 +2,7 @@
 Util for supporting WxPython 3 & 4
 '''
 
+
 import wx
 try:
     import wx.adv
@@ -20,15 +21,15 @@ class Constants:
         WX_DP_DROPDOWN = wx.DP_DROPDOWN
 
 
+
+
 class Classes:
     if isLatestVersion:
         DatePickerCtrl = wx.adv.DatePickerCtrl
+        TimePickerCtrl = wx.adv.TimePickerCtrl
     else:
         DatePickerCtrl = wx.DatePickerCtrl
 
-    if isLatestVersion:
-        TimePickerCtrl = wx.adv.TimePickerCtrl
-    else:
         TimePickerCtrl = wx.TimePickerCtrl
 
 

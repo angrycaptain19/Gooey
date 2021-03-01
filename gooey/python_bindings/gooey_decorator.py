@@ -144,5 +144,4 @@ def Gooey(f=None,
   return build
 
 
-if __name__ == '__main__':
-  pass
+pass

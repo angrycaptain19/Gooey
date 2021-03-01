@@ -148,11 +148,10 @@ def strip_empty(groups):
 
 
 def assert_subparser_constraints(parser):
-    if has_subparsers(parser._actions):
-        if has_required(parser._actions):
-            raise UnsupportedConfiguration(
-                "Gooey doesn't currently support top level required arguments "
-                "when subparsers are present.")
+    if has_subparsers(parser._actions) and has_required(parser._actions):
+        raise UnsupportedConfiguration(
+            "Gooey doesn't currently support top level required arguments "
+            "when subparsers are present.")
 
 
 def iter_parsers(parser):
@@ -211,11 +210,11 @@ def handle_option_merge(group_defaults, incoming_options, title):
         # the argparse default 'required' bucket
         req_cols = getin(group_defaults, ['legacy', 'required_cols'], 2)
         new_defaults = assoc(group_defaults, 'columns', req_cols)
-        return merge(new_defaults, incoming_options)
     else:
         opt_cols = getin(group_defaults, ['legacy', 'optional_cols'], 2)
         new_defaults = assoc(group_defaults, 'columns', opt_cols)
-        return merge(new_defaults, incoming_options)
+
+    return merge(new_defaults, incoming_options)
 
 
 
@@ -286,7 +285,7 @@ def categorize(actions, widget_dict, options):
 
         elif is_standard(action):
             yield action_to_json(action, _get_widget(action, 'TextField'), options)
-        
+
         elif is_file(action):
             yield action_to_json(action, _get_widget(action, 'FileSaver'), options)
 
@@ -299,7 +298,7 @@ def categorize(actions, widget_dict, options):
         elif is_counter(action):
             _json = action_to_json(action, _get_widget(action, 'Counter'), options)
             # pre-fill the 'counter' dropdown
-            _json['data']['choices'] = list(map(str, range(0, 11)))
+            _json['data']['choices'] = list(map(str, range(11)))
             yield _json
         else:
             raise UnknownWidgetType(action)
@@ -557,8 +556,9 @@ def textinput_with_nargs_and_list_default(action, widget):
     """
     return (
         widget in {'TextField', 'Textarea', 'PasswordField'}
-        and (isinstance(action.default, list) or isinstance(action.default, tuple))
-        and is_list_based_nargs(action))
+        and isinstance(action.default, (list, tuple))
+        and is_list_based_nargs(action)
+    )
 
 
 def is_list_based_nargs(action):
