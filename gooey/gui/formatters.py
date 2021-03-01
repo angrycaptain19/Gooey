@@ -69,10 +69,7 @@ def listbox(meta, value):
 
 def general(metadata, value):
     if metadata.get('commands') and value:
-        if not metadata.get('nargs'):
-            v = quote(value)
-        else:
-            v = value
+        v = quote(value) if not metadata.get('nargs') else value
         return u'{0} {1}'.format(metadata['commands'][0], v)
     else:
         if not value:

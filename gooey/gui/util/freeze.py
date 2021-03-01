@@ -40,8 +40,8 @@ def localResourcePath(path):
     When non-packaged, this is os.getcwd(), when packaged, it will be the local
     (dynamic) directory where PyInstaller decompresses content.
     """
-    if is_frozen():
-        basedir = getattr(sys, '_MEIPASS', None)
-        return os.path.join(basedir or sys.executable, path)
-    else:
+    if not is_frozen():
         return os.path.join(os.getcwd(), path)
+
+    basedir = getattr(sys, '_MEIPASS', None)
+    return os.path.join(basedir or sys.executable, path)

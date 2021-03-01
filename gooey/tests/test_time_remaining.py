@@ -11,8 +11,7 @@ from gooey.tests import *
 class TestFooterTimeRemaining(unittest.TestCase):
 
     def make_parser(self):
-        parser = ArgumentParser(description='description')
-        return parser
+        return ArgumentParser(description='description')
 
     def test_time_remaining_visibility(self):
         for testdata in self.testcases():
